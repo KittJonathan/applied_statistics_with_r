@@ -57,3 +57,151 @@ c(42, TRUE)
 ```{r}
 seq(from = 1.5, to = 4.2, by = 0.1)
 ```
+
+```{r}
+seq(1.5, 4.2, 0.1)
+```
+
+```{r}
+rep("A", times = 10)
+```
+
+```{r}
+rep(x, times = 3)
+```
+
+```{r}
+c(x, rep(seq(1, 9, 2), 3), c(1, 2, 3), 42, 2:4)
+```
+
+```{r}
+length(x)
+length(y)
+```
+
+### 3.2.1.1 Subsetting
+
+```{r}
+x
+```
+
+```{r}
+x[1]
+```
+
+```{r}
+x[3]
+```
+
+```{r}
+x[-2]
+```
+
+```{r}
+x[1:3]
+```
+
+```{r}
+x[c(1, 3, 4)]
+```
+
+```{r}
+z = c(TRUE, TRUE, FALSE, TRUE, TRUE, FALSE)
+z
+```
+
+```{r}
+x[z]
+```
+
+## 3.2.2 Vectorization
+
+```{r}
+x <- 1:10
+x + 1
+2 * x
+2 ^ x
+sqrt(x)
+log(x)
+```
+
+## 3.2.3 Logical operators
+
+| Operator | Summary                          | Example                | Result |
+|----------|----------------------------------|------------------------|--------|
+| `x < y`  | `x` less than `y`                | `3 < 42`               | TRUE   |
+| `x > y`  | `x` greater than `y`             | `3 > 42`               | FALSE  |
+| `x <= y` | `x` less than or equal to `y`    | `3 <= 42`              | TRUE   |
+| `x >= y` | `x` greater than or equal to `y` | `3 >= 42`              | FALSE  |
+| `x == y` | `x` equal to `y`                 | `3 == 42`              | FALSE  |
+| `x != y` | `x` not equal to `y`             | `3 != 42`              | TRUE   |
+| `!x`     | not `x`                          | `!(3 > 42)`            | TRUE   |
+| `x | y`  | `x` or `y`                       | `(3 > 42) | TRUE`      | TRUE   |
+| `x & y`  | `x` and `y`                      | `(3 < 42) & (42 > 13)` | TRUE   |
+
+```{r}
+x <- c(1, 3, 5, 7, 8, 9)
+x
+```
+
+```{r}
+x > 3
+```
+
+```{r}
+x < 3
+```
+
+```{r}
+x == 3
+```
+
+```{r}
+x != 3
+```
+
+```{r}
+x == 3 & x != 3
+```
+
+```{r}
+x == 3 | x != 3
+```
+
+```{r}
+x[x > 3]
+```
+
+```{r}
+x[x != 3]
+```
+
+```{r}
+sum(x > 3)
+```
+
+```{r}
+as.numeric(x > 3)
+```
+
+```{r}
+which(x > 3)
+```
+
+```{r}
+x[which(x > 3)]
+```
+
+```{r}
+max(x)
+```
+
+```{r}
+which(x == max(x))
+```
+
+```{r}
+which.max(x)
+```
+
+## 3.2.4 More vectorization
