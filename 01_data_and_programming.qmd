@@ -1,0 +1,59 @@
+---
+title: "Chapter 3 - Data and programming"
+format: html
+editor: visual
+---
+
+<https://book.stat420.org/data-and-programming.html>
+
+# 3.1 Data types 
+
+-   Numeric
+
+-   Integer
+
+-   Complex
+
+-   Logical
+
+-   Character
+
+# 3.2 Data structures
+
+| Dimension | Homogeneous | Heterogeneous |
+|-----------|-------------|---------------|
+| 1         | Vector      | List          |
+| 2         | Matrix      | Data Frame    |
+| 3+        | Array       | \-            |
+
+## 3.2.1 Vectors
+
+```{r}
+c(1, 3, 5, 7, 8, 9)
+```
+
+```{r}
+x <- c(1, 3, 5, 7, 8, 9)
+x
+```
+
+```{r}
+c(42, "Statistics", TRUE)
+```
+
+```{r}
+c(42, TRUE)
+```
+
+```{r}
+(y = 1:100)
+```
+
+```{r}
+# Scalar
+2
+```
+
+```{r}
+seq(from = 1.5, to = 4.2, by = 0.1)
+```
