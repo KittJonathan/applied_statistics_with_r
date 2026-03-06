@@ -6,7 +6,7 @@ editor: visual
 
 <https://book.stat420.org/data-and-programming.html>
 
-# 3.1 Data types 
+# 3.1 Data types
 
 -   Numeric
 
