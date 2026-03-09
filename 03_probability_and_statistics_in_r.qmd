@@ -7,3 +7,67 @@ editor_options:
 ---
 
 <https://book.stat420.org/probability-and-statistics-in-r.html>
+
+```{r}
+#| include: false
+library(tidyverse)
+theme_set(theme_bw())
+```
+
+```{r}
+plot_pdf <- function(distr = "norm", mean = 0, sd = 1,
+                     value) {
+  
+  ggplot() +
+    geom_function(
+      fun = dnorm, 
+      args = list(mean = mean, sd = sd),
+      linewidth = 0.5
+      ) +
+    geom_segment(aes(x = value, xend = value,
+                     y = 0, 
+                     yend = dnorm(x = value, mean = mean, sd = sd)),
+               linetype = "dotted") + 
+    geom_segment(aes(x = mean - (3 * sd), xend = value,
+                     y = dnorm(x = value, mean = mean, sd = sd), 
+                     yend = dnorm(x = value, mean = mean, sd = sd)),
+               linetype = "dotted") +
+    scale_x_continuous(
+      limits = c(mean - (3 * sd), mean + (3 * sd)),
+      breaks = seq(
+        from = mean - (3 * sd),
+        to = mean + (3 * sd),
+        by = sd
+        )
+      ) +
+    labs(x = "x", y = "f(x)",
+         title = paste0("Normal distribution (mean = ", mean,
+                        ", sd = ", sd, ")"),
+         subtitle = paste0("PDF: x = ", value, 
+                           ", f(x) = ", 
+                           round(dnorm(x = value, mean = mean, sd = sd), 3))
+    )
+}
+```
+
+# 5.1 Probability in R
+
+## 5.1.1 Distributions
+
+-   `dname` calculates density (pdf) at input `x`
+
+-   `pname` calculates distribution (cdf) at input `x`
+
+-   `qname` calculates the quantile at in input probability
+
+-   `rname` generates a random draw from a particular distribution
+
+Consider a random variable $X$ which is $N(\mu=2, \sigma^2=25)$. To calculate the value of the pdf at `x = 3` (the height of the curve at `x = 3`):
+
+```{r}
+dnorm(x = 3, mean = 2, sd = 5)
+```
+
+```{r}
+plot_pdf(distr = "norm", mean = 2, sd = 5, value = 12)
+```
