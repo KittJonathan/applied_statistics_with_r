@@ -1,0 +1,9 @@
+---
+title: "Chapter 5 - Probability and statistics in R"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+<https://book.stat420.org/probability-and-statistics-in-r.html>

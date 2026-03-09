@@ -1,0 +1,110 @@
+---
+title: "Chapter 4 - Summarizing Data"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+<https://book.stat420.org/summarizing-data.html>
+
+# 4.1 Summary statistics
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+# Central tendency
+mean(mpg$cty)
+median(mpg$cty)
+```
+
+```{r}
+# Spread
+var(mpg$cty)
+sd(mpg$cty)
+IQR(mpg$cty)
+min(mpg$cty)
+max(mpg$cty)
+range(mpg$cty)
+```
+
+```{r}
+# Categorical
+table(mpg$drv)
+table(mpg$drv) / nrow(mpg)
+```
+
+# 4.2 Plotting
+
+## 4.2.1 Histograms
+
+```{r}
+hist(mpg$cty)
+```
+
+```{r}
+hist(mpg$cty,
+     xlab   = "Miles Per Gallon (City)",
+     main   = "Histogram of MPG (City)",
+     breaks = 12,
+     col    = "dodgerblue",
+     border = "darkorange")
+```
+
+## 4.2.2 Barplots
+
+```{r}
+barplot(table(mpg$drv))
+```
+
+```{r}
+barplot(table(mpg$drv),
+     xlab   = "Drivetrain (f = FWD, r = RWD, 4 = 4WD)",
+     ylab   = "Frequency",
+     main   = "Drivetrains",
+     col    = "dodgerblue",
+     border = "darkorange")
+```
+
+## 4.2.3 Boxplots
+
+```{r}
+unique(mpg$drv)
+```
+
+```{r}
+boxplot(mpg$hwy)
+```
+
+```{r}
+boxplot(hwy ~ drv, data = mpg)
+```
+
+```{r}
+boxplot(hwy ~ drv, data = mpg,
+     xlab   = "Drivetrain (f = FWD, r = RWD, 4 = 4WD)",
+     ylab   = "Miles Per Gallon (Highway)",
+     main   = "MPG (Highway) vs Drivetrain",
+     pch    = 20,
+     cex    = 2,
+     col    = "darkorange",
+     border = "dodgerblue")
+```
+
+## 4.2.4 Scatterplots
+
+```{r}
+plot(hwy ~ displ, data = mpg)
+```
+
+```{r}
+plot(hwy ~ displ, data = mpg,
+     xlab = "Engine Displacement (in Liters)",
+     ylab = "Miles Per Gallon (Highway)",
+     main = "MPG (Highway) vs Engine Displacement",
+     pch  = 20,
+     cex  = 2,
+     col  = "dodgerblue")
+```

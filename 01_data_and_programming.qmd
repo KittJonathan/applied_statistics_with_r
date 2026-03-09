@@ -658,3 +658,113 @@ mpg |>
 ```
 
 # 3.3 Programming basics
+
+## 3.3.1 Control flow
+
+```{r}
+x <- 1
+y <- 3
+
+if (x > y) {
+  z <- x * y
+  print("x is larger than y")
+} else {
+  z <- x + 5 * y
+  print("x is less than or equal to y")
+}
+```
+
+```{r}
+z
+```
+
+```{r}
+ifelse(4 > 3, 1, 0)
+```
+
+```{r}
+fib <- c(1, 1, 2, 3, 5, 8, 13, 21)
+ifelse(fib > 6, "Foo", "Bar")
+```
+
+```{r}
+x <- 11:15
+
+for (i in 1:5) {
+  x[i] = x[i] * 2
+}
+
+x
+```
+
+```{r}
+x <- 11:15
+x <- x * 2
+x
+```
+
+## 3.3.2 Functions
+
+```{r}
+standardize <- function(x) {
+  m <- mean(x)
+  std <- sd(x)
+  result <- (x - m) / std
+  result
+}
+```
+
+```{r}
+(test_sample <- rnorm(n = 10, mean = 2, sd = 5))
+```
+
+```{r}
+standardize(x = test_sample)
+```
+
+```{r}
+standardize <- function(x) {
+  (x - mean(x)) / sd(x)
+}
+```
+
+```{r}
+# Default arguments
+power_of_sum <- function(num, power = 2) {
+  num ^ power
+}
+```
+
+```{r}
+power_of_sum(10)
+power_of_sum(10, 2)
+power_of_sum(num = 10, power = 2)
+power_of_sum(power = 2, num = 10)
+```
+
+```{r}
+power_of_sum(2, 10)
+```
+
+```{r}
+get_var <- function(x, biased = FALSE) {
+  n <- length(x) - 1 * !biased
+  (1 / n) * sum((x - mean(x)) ^ 2)
+}
+```
+
+```{r}
+get_var(test_sample)
+```
+
+```{r}
+get_var(test_sample, biased = FALSE)
+```
+
+```{r}
+var(test_sample)
+```
+
+```{r}
+get_var(test_sample, biased = TRUE)
+```
