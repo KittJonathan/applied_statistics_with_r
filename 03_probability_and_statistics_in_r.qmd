@@ -12,6 +12,7 @@ editor_options:
 #| include: false
 library(tidyverse)
 theme_set(theme_bw())
+source("plot_functions.R")
 ```
 
 ```{r}
@@ -48,6 +49,37 @@ plot_pdf <- function(distr = "norm", mean = 0, sd = 1,
                            round(dnorm(x = value, mean = mean, sd = sd), 3))
     )
 }
+
+plot_cdf <- function(distr = "norm", mean = 0, sd = 1,
+                     value_min = NULL, value_max = NULL) {
+  
+  if(is.null(value_min)) {
+    value_min <- mean - 3 * sd
+  }
+  
+  if(is.null(value_max)) {
+    value_max <- mean + 3*sd
+  }
+  
+  ggplot(data.frame(x = c(mean - 3*sd, mean + 3*sd)), aes(x)) +
+    stat_function(fun = dnorm,
+                  args = list(mean = mean, sd = sd)) +
+    geom_area(stat = "function",
+              fun = dnorm,
+              args = list(mean = mean, sd = sd),
+              fill = "#00998a",
+              alpha = 0.5,
+              xlim = c(value_min, value_max)) +
+    scale_x_continuous(
+      limits = c(mean - (3 * sd), mean + (3 * sd)),
+      breaks = seq(
+        from = mean - (3 * sd),
+        to = mean + (3 * sd),
+        by = sd
+      )
+    )
+  
+}
 ```
 
 # 5.1 Probability in R
@@ -69,5 +101,133 @@ dnorm(x = 3, mean = 2, sd = 5)
 ```
 
 ```{r}
-plot_pdf(distr = "norm", mean = 2, sd = 5, value = 12)
+plot_norm_pdf(mu = 2, sigma = 5, value = 3)
 ```
+
+To calculate the CDF at $x = 3$, that is $P(X \leq 3)$:
+
+```{r}
+pnorm(q = 3, mean = 2, sd = 5)
+```
+
+```{r}
+plot_norm_cdf(mu = 2, sigma = 5, to = 3)
+```
+
+To calculate the quantile for probability $0.975$:
+
+```{r}
+qnorm(p = 0.975, mean = 2, sd = 5)
+```
+
+To generate a random sample of size $n=10$:
+
+```{r}
+rnorm(n = 10, mean = 2, sd = 5)
+```
+
+| Command  | Distribution |
+|----------|--------------|
+| `*binom` | Binomial     |
+| `*t`     | t            |
+| `*pois`  | Poisson      |
+| `*f`     | F            |
+| `*chisq` | Chi-Squared  |
+
+```{r}
+dbinom(x = 6, size = 10, prob = 0.75)
+```
+
+# 5.2 Hypothesis tests in R
+
+## 5.2.1 One sample t-test: review
+
+Suppose $x_i \sim  N(\mu, \sigma^2)$ and we want to test $H_0: \mu = \mu_0$ versus $H_1: \mu \neq \mu_0$.
+
+Assuming $\sigma$ is unknown, we use the one-sample Student's $t$ test statistic:
+
+$$
+t=\frac{\bar{x}-\mu_0}{s/\sqrt{n}} \sim t_{n-1}
+$$
+
+Where
+
+$$
+\bar{x}=\frac{\sum_{i=1}^n x_i}{n}
+$$
+
+and
+
+$$
+s=\sqrt{\frac{1}{n-1} \sum_{i=1}^n(x_i-\bar{x})^2}
+$$
+
+A $100(1-\alpha)\%$ confidence interval for $\mu$ is given by:
+
+$$
+\bar{x} \pm t_{\alpha/2,n-1}\frac{s}{\sqrt{n}}
+$$
+
+Where $t_{\alpha/2,n-1}$ is the critical value such that $P(t > t_{\alpha/2,n-1})=\alpha/2$ for $n-1$ degrees of freedom.
+
+## 5.2.2 One sample t-test: example
+
+Suppose a grocery store sells "16 ounce" boxes of *Captain Crisp* cereal. A random sample of 9 boxes was taken and weighed. The weight in ounces is stored in data frame `capt_crisp`.
+
+```{r}
+capt_crisp = data.frame(weight = c(15.5, 16.2, 16.1, 15.8, 15.6, 16.0, 15.8, 15.9, 16.2))
+```
+
+```{r}
+x_bar <- mean(capt_crisp$weight)
+s <- sd(capt_crisp$weight)
+mu_0 <- 16
+n <- 9
+```
+
+Compute the test statistic:
+
+```{r}
+t <- (x_bar - mu_0) / (s / sqrt(n))
+t
+```
+
+Compute the p-value of the test:
+
+```{r}
+pt(t, df = n - 1)
+```
+
+Using the built-in `t.test()` function:
+
+```{r}
+t.test(x = capt_crisp$weight, mu = 16, alternative = "less", conf.level = 0.95)
+```
+
+For a two-sided interval for the mean weight:
+
+```{r}
+capt_test_results <- t.test(capt_crisp$weight, mu = 16, alternative = "two.sided", conf.level = 0.95)
+```
+
+```{r}
+names(capt_test_results)
+```
+
+```{r}
+capt_test_results$conf.int
+```
+
+Compute the critical value for the confidence interval:
+
+```{r}
+qt(p = 0.975, df = 8)
+```
+
+Confidence interval:
+
+```{r}
+c(mean(capt_crisp$weight) - qt(0.975, df = 8) * sd(capt_crisp$weight) / sqrt(9), mean(capt_crisp$weight) + qt(0.975, df = 8) * sd(capt_crisp$weight) / sqrt(9))
+```
+
+## 5.2.3 Two sample t-test: review
