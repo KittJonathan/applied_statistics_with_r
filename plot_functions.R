@@ -1,3 +1,9 @@
+# Packages ----
+
+library(latex2exp)
+library(tidyverse)
+theme_set(theme_bw())
+
 # Plot Normal PDF ----
 
 plot_norm_pdf <- function(mu = 0, sigma = 1, 
@@ -150,8 +156,8 @@ plot_norm_cdf <- function(mu = 0, sigma = 1, sigma_range = 3,
   }
 
 plot_norm_cdf()
-plot_norm_cdf(from = -1)
-plot_norm_cdf(from = -1, to = 1)
+plot_norm_cdf(to = 1)
+plot_norm_cdf(from = -2, to = 2)
 
 # Plot Binomial PDF ----
 

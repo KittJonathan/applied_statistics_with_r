@@ -231,3 +231,77 @@ c(mean(capt_crisp$weight) - qt(0.975, df = 8) * sd(capt_crisp$weight) / sqrt(9),
 ```
 
 ## 5.2.3 Two sample t-test: review
+
+Suppose $x_i \sim N(\mu_x, \sigma^2)$ and $y_i \sim N(\mu_x, \sigma^2)$.
+
+Want to test: $H_0: \mu_x - \mu_y=\mu_0$ versus $H_1: \mu_x-\mu_y \neq \mu_0$.
+
+Assuming $\sigma$ is unknown, use the two-sample Student's $t$ test statistic:
+
+$$
+t=\frac{(\bar{x}-\bar{y}) - \mu_0}{s_p \sqrt{\frac{1}{n} + \frac{1}{m}}} \sim t_{n+m-2},
+$$
+
+where $\bar{x}=\frac{\sum_{i=1}^n x_i}{n}$, $\bar{y}=\frac{\sum_{i=1}^m y_i}{m}$, and $s_p^2=\frac{(n-1)s_x^2+(m-1)s_y^2}{n+m-2}$.
+
+A $100(1-\alpha)%$ CI for $\mu_x-\mu_y$ is given by
+
+$$
+(\bar{x}-\bar{y}) \pm t_{\alpha/2,n+m-2} (s_p \sqrt{\frac{1}{n}+\frac{1}{m}})
+$$
+
+## 5.2.4 Two Sample t-test: Example
+
+```{r}
+x <- c(70, 82, 78, 74, 94, 82)
+n <- length(x)
+```
+
+```{r}
+y <- c(64, 72, 60, 76, 72, 80, 84, 68)
+m <- length(y)
+```
+
+```{r}
+x_bar <- mean(x)
+s_x <- sd(x)
+y_bar <- mean(y)
+s_y <- sd(y)
+```
+
+```{r}
+# Pooled standard deviation
+s_p <- sqrt(((n - 1) * s_x ^ 2 + (m - 1) * s_y ^ 2) / (n + m - 2))
+```
+
+```{r}
+# T test statistic
+t <- ((x_bar - y_bar) - 0) / (s_p * sqrt(1 / n + 1 / m))
+t
+```
+
+```{r}
+# p value
+1 - pt(t, df = n + m - 2)
+```
+
+```{r}
+t.test(x, y, alternative = "greater", var.equal = TRUE)
+```
+
+```{r}
+t_test_data <- data.frame(
+  values = c(x, y),
+  group  = c(rep("A", length(x)), rep("B", length(y))))
+```
+
+```{r}
+t_test_data
+```
+
+```{r}
+t.test(values ~ group, data = t_test_data,
+       alternative = "greater", var.equal = TRUE)
+```
+
+# 5.3 Simulation
