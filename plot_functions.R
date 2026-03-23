@@ -161,9 +161,9 @@ plot_norm_cdf(from = -2, to = 2)
 
 # Plot Binomial PDF ----
 
-size = 100
-prob <- 0.5
-qval <- 50
+size = 1000
+prob <- 1/6
+qval <- 500
 
 df <- tibble(
   x = 0:size,
@@ -185,7 +185,7 @@ pbinom(q = 2, size = 10, prob = 0.5)
 sum(dbinom(x = 0:size, size = 10, prob = 0.5)[1:3])
 
 ggplot(data = data.frame(
-  x = 0:size),
+  x = 0:1000),
   aes(x)
 ) +
   stat_function(
